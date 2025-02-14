@@ -1,3 +1,5 @@
+// src/utils/web3.ts
+
 import { ethers } from 'ethers';
 
 // Define event types for better type safety
