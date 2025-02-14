@@ -68,7 +68,7 @@ const recentAudits: Audit[] = [
     summary: 'No critical vulnerabilities found. Code follows best practices.',
     auditor: '0xABc...123',
     timestamp: 1703116800,
-    chain: 'ancient8Testnet'
+    chain: 'educhainTestnet'
   },
   {
     contractHash: '0x456...def',
@@ -76,7 +76,7 @@ const recentAudits: Audit[] = [
     summary: 'Minor optimizations suggested. Overall secure implementation.',
     auditor: '0xDEf...456',
     timestamp: 1703030400,
-    chain: 'neoX'
+    chain: 'educhainTestnet'
   },
   {
     contractHash: '0x789...ghi',
@@ -84,7 +84,7 @@ const recentAudits: Audit[] = [
     summary: 'Excellent implementation with robust security measures.',
     auditor: '0xGHi...789',
     timestamp: 1702944000,
-    chain: 'flowTestnet'
+    chain: 'educhainTestnet'
   },
   {
     contractHash: '0x101...jkl',

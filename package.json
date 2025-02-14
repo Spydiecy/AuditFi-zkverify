@@ -33,11 +33,13 @@
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
     "@langchain/google-genai": "^0.1.6",
+    "@openzeppelin/contracts": "^5.1.0",
     "@types/aos": "^3.0.7",
     "aos": "^2.3.4",
     "chromadb": "^1.9.4",
-    "ethers": "^6.13.4",
+    "ethers": "^6.13.5",
     "phosphor-react": "^1.4.1",
-    "solc": "^0.8.19"
+    "solc": "^0.8.28",
+    "zkverifyjs": "^0.6.0"
   }
 }

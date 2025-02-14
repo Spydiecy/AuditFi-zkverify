@@ -158,29 +158,8 @@ const isSolidityCode = (code: string): boolean => {
     const chainId = '0x' + network.chainId.toString(16);
     
     // Determine contract address and update current chain
-    let contractAddress = '';
-    if (chainId.toLowerCase() === CHAIN_CONFIG.lineaSepolia.chainId.toLowerCase()) {
-      contractAddress = CONTRACT_ADDRESSES.lineaSepolia;
-      setCurrentChain('lineaSepolia');
-    } else if (chainId.toLowerCase() === CHAIN_CONFIG.neoX.chainId.toLowerCase()) {
-      contractAddress = CONTRACT_ADDRESSES.neoX;
-      setCurrentChain('neoX');
-    } else if (chainId.toLowerCase() === CHAIN_CONFIG.neoXTestnet.chainId.toLowerCase()) {
-      contractAddress = CONTRACT_ADDRESSES.neoXTestnet;
-      setCurrentChain('neoXTestnet');
-    } else if (chainId.toLowerCase() === CHAIN_CONFIG.kaiaTestnet.chainId.toLowerCase()) {
-      contractAddress = CONTRACT_ADDRESSES.kaiaTestnet;
-      setCurrentChain('kaiaTestnet');
-    } else if (chainId.toLowerCase() === CHAIN_CONFIG.telosTestnet.chainId.toLowerCase()) {
-      contractAddress = CONTRACT_ADDRESSES.telosTestnet;
-      setCurrentChain('telosTestnet');
-    } else if (chainId.toLowerCase() === CHAIN_CONFIG.flowTestnet.chainId.toLowerCase()) {
-      contractAddress = CONTRACT_ADDRESSES.flowTestnet;
-      setCurrentChain('flowTestnet');
-    } else if (chainId.toLowerCase() === CHAIN_CONFIG.ancient8Testnet.chainId.toLowerCase()) {
-      contractAddress = CONTRACT_ADDRESSES.ancient8Testnet;
-      setCurrentChain('ancient8Testnet');
-    } else if (chainId.toLowerCase() === CHAIN_CONFIG.educhainTestnet.chainId.toLowerCase()) {
+    let contractAddress = '';   setCurrentChain('lineaSepolia');
+    if (chainId.toLowerCase() === CHAIN_CONFIG.educhainTestnet.chainId.toLowerCase()) {
       contractAddress = CONTRACT_ADDRESSES.educhainTestnet;
       setCurrentChain('educhainTestnet');
     } else {

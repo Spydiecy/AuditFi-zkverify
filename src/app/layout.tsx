@@ -204,15 +204,17 @@ export default function RootLayout({ children }: RootLayoutProps) {
                     } transition-all duration-200`}
                     disabled={isNetworkSwitching}
                   >
-                    <Image 
-                      src={CHAIN_CONFIG[currentChain].iconPath}
-                      alt={CHAIN_CONFIG[currentChain].chainName}
-                      width={20}
-                      height={20}
-                      className="rounded-full"
-                    />
+                    {CHAIN_CONFIG[currentChain] && (
+                      <Image 
+                        src={CHAIN_CONFIG[currentChain].iconPath}
+                        alt={CHAIN_CONFIG[currentChain].chainName}
+                        width={20}
+                        height={20}
+                        className="rounded-full"
+                      />
+                    )}
                     <span className="text-sm font-medium">
-                      {isNetworkSwitching ? 'Switching...' : CHAIN_CONFIG[currentChain].chainName}
+                      {isNetworkSwitching ? 'Switching...' : CHAIN_CONFIG[currentChain]?.chainName || 'Unknown Chain'}
                     </span>
                     {isChainMenuOpen ? (
                       <CaretUp className="w-4 h-4" />
@@ -324,15 +326,17 @@ export default function RootLayout({ children }: RootLayoutProps) {
                         } transition-colors duration-200`}
                         disabled={isNetworkSwitching}
                       >
-                        <Image 
-                          src={chain.iconPath}
-                          alt={chain.chainName}
-                          width={20}
-                          height={20}
-                          className="rounded-full"
-                        />
+                        {chain && (
+                          <Image 
+                            src={chain.iconPath}
+                            alt={chain.chainName}
+                            width={20}
+                            height={20}
+                            className="rounded-full"
+                          />
+                        )}
                         <span>
-                          {isNetworkSwitching && currentChain === key ? 'Switching...' : chain.chainName}
+                          {isNetworkSwitching && currentChain === key ? 'Switching...' : chain?.chainName || 'Unknown Chain'}
                         </span>
                       </button>
                     ))}

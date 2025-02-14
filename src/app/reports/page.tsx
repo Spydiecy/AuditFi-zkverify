@@ -50,24 +50,22 @@ export default function ReportsPage() {
     try {
       const allAudits: AuditReport[] = [];
       const BATCH_SIZE = 50;
-  
+      const BLOCK_RANGE = 10000; // Maximum block range for queries
+
       for (const [chainKey, chainData] of Object.entries(CHAIN_CONFIG)) {
         try {
           console.log(`Fetching from ${chainKey}...`);
           
           const provider = new ethers.JsonRpcProvider(chainData.rpcUrls[0]);
-  
           const contract = new ethers.Contract(
             CONTRACT_ADDRESSES[chainKey as ChainKey],
             AUDIT_REGISTRY_ABI,
             provider
           );
-  
-          // Get total contracts for this chain
+
           const totalContracts = await contract.getTotalContracts();
           console.log(`Found ${totalContracts.toString()} contracts on ${chainKey}`);
-  
-          // Fetch in batches
+
           let processed = 0;
           while (processed < totalContracts) {
             try {
@@ -78,13 +76,28 @@ export default function ReportsPage() {
                 auditors,
                 timestamps
               } = await contract.getAllAudits(processed, BATCH_SIZE);
-  
+
               for (let i = 0; i < contractHashes.length; i++) {
-                const filter = contract.filters.AuditRegistered(contractHashes[i]);
-                const blockNumber = await provider.getBlockNumber();
-                const events = await contract.queryFilter(filter, 0, blockNumber);
-                const txHash = events[events.length - 1]?.transactionHash || '';
-  
+                const latestBlock = await provider.getBlockNumber();
+                let txHash = '';
+
+                // Query events in chunks of BLOCK_RANGE
+                for (let startBlock = 0; startBlock <= latestBlock; startBlock += BLOCK_RANGE) {
+                  const endBlock = Math.min(startBlock + BLOCK_RANGE - 1, latestBlock);
+                  const filter = contract.filters.AuditRegistered(contractHashes[i]);
+                  
+                  try {
+                    const events = await contract.queryFilter(filter, startBlock, endBlock);
+                    if (events.length > 0) {
+                      txHash = events[events.length - 1].transactionHash;
+                      break; // Found the event, no need to continue searching
+                    }
+                  } catch (eventError) {
+                    console.warn(`Error querying events for block range ${startBlock}-${endBlock}:`, eventError);
+                    continue;
+                  }
+                }
+
                 allAudits.push({
                   contractHash: contractHashes[i],
                   transactionHash: txHash,
@@ -95,24 +108,24 @@ export default function ReportsPage() {
                   chain: chainKey as ChainKey
                 });
               }
-  
+
               processed += contractHashes.length;
               console.log(`Processed ${processed}/${totalContracts} on ${chainKey}`);
-  
+
             } catch (batchError) {
               console.error(`Error fetching batch at ${processed} from ${chainKey}:`, batchError);
               break;
             }
           }
-  
+
         } catch (chainError) {
           console.error(`Error processing chain ${chainKey}:`, chainError);
         }
       }
-  
+
       console.log(`Total audits collected: ${allAudits.length}`);
       setReports(allAudits.sort((a, b) => b.timestamp - a.timestamp));
-  
+
     } catch (error) {
       console.error('Failed to fetch audits:', error);
     } finally {
